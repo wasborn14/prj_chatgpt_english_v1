@@ -1,16 +1,8 @@
-import type { NextPage } from 'next'
-import styled from 'styled-components'
+import React from 'react'
+import { Top } from '@/components/pages/Top'
 
-const Index: NextPage = () => {
-  return (
-    <Container>
-      <h1>Ifee App</h1>
-    </Container>
-  )
+const Index = () => {
+  return <Top />
 }
 
 export default Index
-
-const Container = styled.div`
-  color: green;
-`

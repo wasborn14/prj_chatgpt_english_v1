@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
+import { pxToRem } from './utils/pxToRem'
 
 export const GlobalStyles = createGlobalStyle`
   /* Box sizing rules */
@@ -43,7 +44,7 @@ export const GlobalStyles = createGlobalStyle`
       min-height: 100vh;
       text-rendering: optimizeSpeed;
       line-height: 1.5;
-      font-size: 16px;
+      font-size: ${pxToRem(16)};
       font-family: "Times New Roman", Times, serif;
   }
 
