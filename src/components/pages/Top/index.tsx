@@ -13,14 +13,37 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 
 export type FormProps = Schema & {}
 
-const SYSTEM_CONTENT =
-  'Can I have a conversation with you so that I can improve my English? ' +
-  'Please point out my English mistakes and correct them as a native English speaker would say them. You start this conversation.'
+// const SYSTEM_CONTENT =
+//   'Can I have a conversation with you so that I can improve my English? ' +
+//   'Please point out my English mistakes and correct them as a native English speaker would say them. You start this conversation.'
+// const SYSTEM_CONTENT =
+//   'You are an English teacher.' +
+//   'Please point out my English mistakes and correct them as a native English speaker would say them.'
+
+const FIRST_CONTENTS: Message[] = [
+  { role: 'user', content: 'Can I have a conversation with you so that I can improve my English?' },
+  {
+    role: 'assistant',
+    content:
+      "Certainly! I'd be happy to chat with you and help you improve your English. What would you like to talk about?"
+  },
+  {
+    role: 'user',
+    content:
+      'Please point out my English mistakes and correct them as a native English speaker would say them. You start this conversation.'
+  },
+  {
+    role: 'assistant',
+    content:
+      'Sure, I can do that. Please feel free to start a conversation on any topic and I will provide corrections as needed.'
+  }
+]
 
 export const Top = () => {
   const [isSoundOutput, setIsSoundOutput] = useState(true)
   const [chats, setChats] = useState<Message[]>([
-    { role: 'system', content: SYSTEM_CONTENT }
+    ...FIRST_CONTENTS
+
     // { role: 'system', content: 'あなたはみんなに愛されるゆるキャラです。必ずタメ口で話すようにしてください。' }
     // {
     //   role: 'system',
@@ -67,7 +90,6 @@ export const Top = () => {
       if (englishVoice) {
         utterance.voice = englishVoice
       }
-      console.log({ voices })
       synthesis.cancel()
       synthesis.speak(utterance)
     }
@@ -92,7 +114,8 @@ export const Top = () => {
   return (
     <Container>
       <FormProvider {...methods}>
-        {chats.slice(1, chats.length).map((chat, index) => (
+        {/* {chats.slice(1, chats.length).map((chat, index) => ( */}
+        {chats.slice(4, chats.length).map((chat, index) => (
           <OutputWrapper key={`text_${index}`}>
             <Output role={chat.role} content={chat.content} />
           </OutputWrapper>
