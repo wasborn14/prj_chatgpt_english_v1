@@ -1,5 +1,6 @@
 import { Color } from '@/const'
 import { fontStyles } from '@/const/font'
+import { sp } from '@/media'
 import { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 
@@ -41,6 +42,9 @@ export const Output = ({ role, content }: Props) => {
 
 const Container = styled.div<{ role: string }>`
   width: 1000px;
+  ${sp`
+    width:350px;
+  `}
   display: flex;
   ${({ role }) =>
     role === 'user'
@@ -54,6 +58,9 @@ const Container = styled.div<{ role: string }>`
 
 const Wrapper = styled.div`
   width: 700px;
+  ${sp`
+    width:300px;
+  `}
 `
 
 const Person = styled.h3``

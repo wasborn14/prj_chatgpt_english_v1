@@ -1,5 +1,6 @@
 import { ChatLoading } from '@/components/atoms/Loading'
 import { Color } from '@/const'
+import { sp } from '@/media'
 import styled from 'styled-components'
 
 export const LoadingOutput = () => {
@@ -15,6 +16,9 @@ export const LoadingOutput = () => {
 
 const Container = styled.div`
   width: 800px;
+  ${sp`
+    width: 350px;
+  `}
 `
 
 const Person = styled.h3``

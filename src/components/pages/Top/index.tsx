@@ -5,7 +5,6 @@ import { Schema } from './schema'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Output } from './Output'
 import { Spacer } from '@/components/atoms/Spacer'
-import { SoundInput } from './SoundInput'
 import { GeneralShortButton } from '@/components/atoms/Buttons/Button'
 import { Message, requestOpenApi } from '@/hooks/api'
 import { LoadingOutput } from './Output/LoadingOutput'
@@ -126,18 +125,20 @@ export const Top = () => {
 
         <Spacer y={20} />
         <Input onClick={callAI} />
-        <SoundInput />
+        <Spacer y={20} />
         <GeneralShortButton onClick={handleClickSoundOutput}>
           {isSoundOutput ? 'sound:off' : 'sound:on'}
         </GeneralShortButton>
         <Spacer y={20} />
         <p>Microphone: {listening ? 'on' : 'off'}</p>
+        <Spacer y={20} />
         <GeneralShortButton onClick={() => SpeechRecognition.startListening({ continuous: true })}>
           Start
         </GeneralShortButton>
-        <button onClick={() => SpeechRecognition.stopListening()}>Stop</button>
-        <button onClick={resetTranscript}>Reset</button>
-        <p>{transcript}</p>
+        <Spacer y={20} />
+        <GeneralShortButton onClick={() => SpeechRecognition.stopListening()}>Stop</GeneralShortButton>
+        <Spacer y={20} />
+        <GeneralShortButton onClick={resetTranscript}>Reset</GeneralShortButton>
       </FormProvider>
     </Container>
   )
