@@ -27,10 +27,10 @@ export const Input = ({ onClick }: Props) => {
           widthPx={500}
           onKeyDown={handleKeyDown}
           {...register('text')}
-          placeholder='質問内容を入力してください'
+          placeholder='Please Enter ...'
         />
         <Wrapper>
-          <GeneralShortButton type='submit'>ChatGPTへ送る</GeneralShortButton>
+          <GeneralShortButton type='submit'>Send</GeneralShortButton>
         </Wrapper>
       </form>
     </Container>
