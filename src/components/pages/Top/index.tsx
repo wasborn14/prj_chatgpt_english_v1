@@ -126,19 +126,19 @@ export const Top = () => {
         <Spacer y={20} />
         <Input onClick={callAI} />
         <Spacer y={20} />
-        <GeneralShortButton onClick={handleClickSoundOutput}>
-          {isSoundOutput ? 'sound:off' : 'sound:on'}
-        </GeneralShortButton>
-        <Spacer y={20} />
-        <p>Microphone: {listening ? 'on' : 'off'}</p>
-        <Spacer y={20} />
         <GeneralShortButton onClick={() => SpeechRecognition.startListening({ continuous: true })}>
           Start
         </GeneralShortButton>
         <Spacer y={20} />
+        <GeneralShortButton onClick={resetTranscript}>Reset</GeneralShortButton>
+        <Spacer y={20} />
+        <p>Microphone: {listening ? 'on' : 'off'}</p>
+        <Spacer y={20} />
         <GeneralShortButton onClick={() => SpeechRecognition.stopListening()}>Stop</GeneralShortButton>
         <Spacer y={20} />
-        <GeneralShortButton onClick={resetTranscript}>Reset</GeneralShortButton>
+        <GeneralShortButton onClick={handleClickSoundOutput}>
+          {isSoundOutput ? 'sound:off' : 'sound:on'}
+        </GeneralShortButton>
       </FormProvider>
     </Container>
   )
