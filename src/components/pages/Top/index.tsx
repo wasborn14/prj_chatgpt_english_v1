@@ -1,32 +1,33 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { Input } from './Input'
 import styled from 'styled-components'
 import { Schema } from './schema'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Output } from './Output'
 import { Spacer } from '@/components/atoms/Spacer'
+import { SoundInput } from './SoundInput'
+import { GeneralShortButton } from '@/components/atoms/Buttons/Button'
+import { Message, requestOpenApi } from '@/hooks/api'
+import { LoadingOutput } from './Output/LoadingOutput'
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 
 export type FormProps = Schema & {}
 
-type TextData = {
-  person: string
-  text: string
-}
-
-const demoText = [
-  {
-    person: 'User',
-    text: 'test'
-  },
-  {
-    person: 'User',
-    text: 'test'
-  }
-]
+const SYSTEM_CONTENT =
+  'Can I have a conversation with you so that I can improve my English? ' +
+  'Please point out my English mistakes and correct them as a native English speaker would say them. You start this conversation.'
 
 export const Top = () => {
-  const [dataList, setDataList] = useState<TextData[]>([])
+  const [isSoundOutput, setIsSoundOutput] = useState(true)
+  const [chats, setChats] = useState<Message[]>([
+    { role: 'system', content: SYSTEM_CONTENT }
+    // { role: 'system', content: 'あなたはみんなに愛されるゆるキャラです。必ずタメ口で話すようにしてください。' }
+    // {
+    //   role: 'system',
+    //   content: 'あなたは英会話の講師です。英語で日常会話の練習をするのと同時に解説を行なってください'
+    // }
+  ])
+  const [isChatLoading, setIsChatLoading] = useState(false)
 
   const defaultValues: FormProps = {
     text: ''
@@ -37,28 +38,83 @@ export const Top = () => {
   })
 
   const callAI = async () => {
-    // const chat: string = (document!.getElementById('text-textbox') as HTMLInputElement).value
-    const chat: string = methods.getValues('text')
-    setDataList([...dataList, { person: 'User', text: chat }, { person: 'ChatGPT', text: '...' }])
+    SpeechRecognition.stopListening()
+    resetTranscript()
 
-    const res = await axios.get('/api/chatgpt?chat=' + chat)
-    const data = await res.data
-    console.log(data)
-    console.log(data.chat)
-    setDataList([...dataList, { person: 'User', text: chat }, { person: 'ChatGPT', text: data.chat }])
+    const newChat: Message = { role: 'user', content: methods.getValues('text') }
+    methods.setValue('text', '')
+    setChats((prev) => [...prev, newChat])
+
+    setIsChatLoading(true)
+    const res = await requestOpenApi([...chats, newChat])
+    setIsChatLoading(false)
+
+    setChats((prev) => [...prev, res as Message])
+
+    // setDataList([...dataList, { person: 'User', text: chat }, { person: 'ChatGPT', text: '...' }])
+
+    // const res = await axios.get('/api/chatgpt?chat=' + chat)
+    // const data = await res.data
+    // setDataList([...dataList, { person: 'User', text: chat }, { person: 'ChatGPT', text: data.chat }])
+
+    // 音声出力
+    if (isSoundOutput) {
+      const synthesis = window.speechSynthesis
+      const utterance = new SpeechSynthesisUtterance(res?.content)
+      const voices = await synthesis.getVoices()
+      // const englishVoice = voices.find((voice) => voice.name === 'Google UK English Female')
+      const englishVoice = voices.find((voice) => voice.name === 'Google US English')
+      if (englishVoice) {
+        utterance.voice = englishVoice
+      }
+      console.log({ voices })
+      synthesis.cancel()
+      synthesis.speak(utterance)
+    }
     // alert(data.chat)
   }
+
+  const handleClickSoundOutput = () => {
+    if (isSoundOutput) {
+      const synthesis = window.speechSynthesis
+      synthesis.cancel()
+    }
+    setIsSoundOutput(!isSoundOutput)
+  }
+
+  const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition()
+
+  useEffect(() => {
+    console.log({ transcript })
+    methods.setValue('text', transcript)
+  }, [transcript, methods])
 
   return (
     <Container>
       <FormProvider {...methods}>
-        {dataList.map((data, index) => (
+        {chats.slice(1, chats.length).map((chat, index) => (
           <OutputWrapper key={`text_${index}`}>
-            <Output person={data.person} text={data.text} />
+            <Output role={chat.role} content={chat.content} />
           </OutputWrapper>
         ))}
+
+        <Spacer y={20} />
+        {isChatLoading && <LoadingOutput />}
+
         <Spacer y={20} />
         <Input onClick={callAI} />
+        <SoundInput />
+        <GeneralShortButton onClick={handleClickSoundOutput}>
+          {isSoundOutput ? 'sound:off' : 'sound:on'}
+        </GeneralShortButton>
+        <Spacer y={20} />
+        <p>Microphone: {listening ? 'on' : 'off'}</p>
+        <GeneralShortButton onClick={() => SpeechRecognition.startListening({ continuous: true })}>
+          Start
+        </GeneralShortButton>
+        <button onClick={() => SpeechRecognition.stopListening()}>Stop</button>
+        <button onClick={resetTranscript}>Reset</button>
+        <p>{transcript}</p>
       </FormProvider>
     </Container>
   )

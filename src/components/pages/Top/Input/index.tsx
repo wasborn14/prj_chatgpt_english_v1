@@ -11,10 +11,23 @@ type Props = {
 export const Input = ({ onClick }: Props) => {
   const { register, handleSubmit } = useFormContext<Schema>()
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // cmd + Enter もしくは ctrl + Enter
+    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+      onClick()
+    }
+  }
+
   return (
     <Container>
       <form onSubmit={handleSubmit(onClick)}>
-        <TextArea heightPx={200} widthPx={500} {...register('text')} placeholder='質問内容を入力してください' />
+        <TextArea
+          heightPx={200}
+          widthPx={500}
+          onKeyDown={handleKeyDown}
+          {...register('text')}
+          placeholder='質問内容を入力してください'
+        />
         <Wrapper>
           <GeneralShortButton type='submit'>ChatGPTへ送る</GeneralShortButton>
         </Wrapper>
@@ -25,7 +38,6 @@ export const Input = ({ onClick }: Props) => {
 
 const Container = styled.div`
   width: 800px;
-  /* background-color: blue; */
 `
 
 const Wrapper = styled.div`

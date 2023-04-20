@@ -362,6 +362,11 @@
   dependencies:
     tslib "^2.4.0"
 
+"@types/dom-speech-recognition@*":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@types/dom-speech-recognition/-/dom-speech-recognition-0.0.1.tgz#e326761a04b4a49c0eec2ac7948afc1c6aa12baa"
+  integrity sha512-udCxb8DvjcDKfk1WTBzDsxFbLgYxmQGKrE/ricoMqHRNjSlSUCcamVTA5lIQqzY10mY5qCY0QDwBfFEwhfoDPw==
+
 "@types/hoist-non-react-statics@*":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
@@ -407,6 +412,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-speech-recognition@^3.9.2":
+  version "3.9.2"
+  resolved "https://registry.yarnpkg.com/@types/react-speech-recognition/-/react-speech-recognition-3.9.2.tgz#0084ad4aca3e70d92807ae411c660e6aa751c78f"
+  integrity sha512-LS13Z4A8nluGWyT1NQncWoyaWARJdEojxmcRvaFDT9nTHpRkMgPjaYBJIc/9GBRYYFy8TQGaiCmUdH2g4M9INg==
+  dependencies:
+    "@types/dom-speech-recognition" "*"
+
 "@types/react@*", "@types/react@18.0.34":
   version "18.0.34"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.34.tgz#e553444a578f023e6e1ac499514688fb80b0a984"
@@ -415,6 +427,11 @@
     "@types/prop-types" "*"
     "@types/scheduler" "*"
     csstype "^3.0.2"
+
+"@types/regenerator-runtime@^0.13.1":
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/@types/regenerator-runtime/-/regenerator-runtime-0.13.1.tgz#1285f0b1b0508e0ead609104b9a42409473122d1"
+  integrity sha512-Wr4Kopo+zs7kl1mxveVrP7Hl5nEzauQKdSNFN5Eg27Ze11MAgJYKgidYc9AAkQzGXXWH9lqVzPbXUGH6M8VY6g==
 
 "@types/scheduler@*":
   version "0.16.3"
@@ -2754,6 +2771,11 @@ react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-speech-recognition@^3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/react-speech-recognition/-/react-speech-recognition-3.10.0.tgz#7aa43bb28d78b92671864dabba3a70489ccad27b"
+  integrity sha512-EVSr4Ik8l9urwdPiK2r0+ADrLyDDrjB0qBRdUWO+w2MfwEBrj6NuRmy1GD3x7BU/V6/hab0pl8Lupen0zwlJyw==
 
 react@18.2.0:
   version "18.2.0"
